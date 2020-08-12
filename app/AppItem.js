@@ -1,15 +1,33 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
- 
+import AsyncStorage from '@react-native-community/async-storage';
+
 export default function AppItem(props){
+
+    function handleDeletePress(){ 
+        console.log(item); 
+    } 
+
+    async function handleEditPress(){ 
+        let savedItems = [];
+        const response = await AsyncStorage.getItem('items');
+        if(response) savedItems = JSON.parse(response);
+        const item = await savedItems.find(item => item.id === props.id);
+        props.navigation.navigate("AppForm", item);
+    }
+    
     return (
         <View style={styles.container}>
           <Text style={styles.textItem}>{props.item}</Text>
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.deleteButton} > 
+            <TouchableOpacity 
+                style={styles.deleteButton}
+                onPress={handleDeletePress}> 
                 <Text style={styles.buttonText}>X</Text> 
             </TouchableOpacity> 
-            <TouchableOpacity style={styles.editButton} > 
+            <TouchableOpacity 
+                style={styles.editButton} 
+                onPress={handleEditPress}> 
                 <Text style={styles.buttonText}>Editar</Text> 
             </TouchableOpacity> 
           </View>
