@@ -1,18 +1,31 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import Database from './Database';
 
 export default function AppItem(props){
 
     function handleDeletePress(){ 
-        console.log(item); 
+        Alert.alert(
+            "Atenção",
+            "Você tem certeza que deseja excluir este item?",
+            [
+                {
+                text: "Não",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+                },
+                { text: "Sim", onPress: () => {
+                        Database.deleteItem(props.id)
+                            .then(response => props.navigation.navigate("AppList", {id: props.id}));
+                    }
+                }
+            ],
+            { cancelable: false }
+            );
     } 
 
     async function handleEditPress(){ 
-        let savedItems = [];
-        const response = await AsyncStorage.getItem('items');
-        if(response) savedItems = JSON.parse(response);
-        const item = await savedItems.find(item => item.id === props.id);
+        const item = await Database.getItem(props.id);
         props.navigation.navigate("AppForm", item);
     }
     
@@ -37,7 +50,6 @@ export default function AppItem(props){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#fff',
       marginTop: 20,
       width: '100%'

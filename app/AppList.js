@@ -2,19 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import AppItem from './AppItem';
-import AsyncStorage from '@react-native-community/async-storage';
+import Database from './Database';
  
-export default function AppList({ navigation }) {
+export default function AppList({ route, navigation }) {
   const [items, setItems] = useState([]);
   
   useEffect(() => {
-      console.log('ativou');
-      AsyncStorage.getItem('items')
-        .then(response => {
-            if(response)
-                setItems(JSON.parse(response));
-        })
-  }, items); 
+      Database.getItems().then(items => setItems(items));
+  }, [route]); 
 
   return (
     <View style={styles.container}>
@@ -37,7 +32,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#D93600',
     alignItems: 'center',
     justifyContent: 'center',
-    //height: '100%'
   },
   title: {
     color: '#fff',
@@ -51,6 +45,7 @@ const styles = StyleSheet.create({
     width: '90%'
   },
   itemsContainer: {
+    flex: 1,
     marginTop: 10,
     padding: 20,
     borderTopLeftRadius: 10,
