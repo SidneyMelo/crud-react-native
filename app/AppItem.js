@@ -37,12 +37,12 @@ export default function AppItem(props){
             <TouchableOpacity 
                 style={styles.deleteButton}
                 onPress={handleDeletePress}> 
-                <Icon name="trash" color="white" size="18" />
+                <Icon name="trash" color="white" size={18} />
             </TouchableOpacity> 
             <TouchableOpacity 
                 style={styles.editButton} 
                 onPress={handleEditPress}> 
-                <Icon name="edit" color="white" size="18" />
+                <Icon name="edit" color="white" size={18} />
             </TouchableOpacity> 
           </View>
         </View>

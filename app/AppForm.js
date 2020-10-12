@@ -42,7 +42,7 @@ export default function AppForm({ route, navigation }) {
           value={quantidade.toString()} /> 
           <TouchableOpacity style={styles.button} onPress={handleButtonPress}> 
             <View style={styles.buttonContainer}>
-              <Icon name="save" size="22" color="white" />
+              <Icon name="save" size={22} color="white" />
               <Text style={styles.buttonText}>Salvar</Text> 
             </View>
           </TouchableOpacity> 
